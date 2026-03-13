@@ -30,7 +30,7 @@ The tool supports extraction of 8 major OpenStreetMap feature categories:
 - Secondary attribute filters (surface type, accessibility, etc.)
 - Flexible selection allowing single or multiple feature types
 
-### Data Export
+### Data Export 
 Export extracted features in multiple standard formats:
 
 - **GeoJSON** - Web-friendly format for further analysis
