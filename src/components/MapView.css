@@ -1,0 +1,100 @@
+.map-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.map {
+  width: 100%;
+  height: 100%;
+}
+
+.map-instruction {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.instruction-card {
+  background: white;
+  padding: 24px 32px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  max-width: 300px;
+}
+
+.instruction-icon {
+  font-size: 48px;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.instruction-card h3 {
+  font-size: 18px;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.instruction-card p {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
+}
+
+/* Feature popup styles */
+.feature-popup {
+  font-size: 13px;
+  min-width: 150px;
+}
+
+.feature-popup div {
+  margin: 4px 0;
+}
+
+.feature-popup strong {
+  color: #667eea;
+  margin-right: 6px;
+}
+
+.feature-popup a {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.feature-popup a:hover {
+  text-decoration: underline;
+}
+
+/* Leaflet control customization */
+.leaflet-draw-toolbar {
+  margin-top: 12px !important;
+}
+
+.leaflet-draw-draw-rectangle,
+.leaflet-draw-draw-polygon {
+  background-size: 20px 20px !important;
+}
+
+@media (max-width: 768px) {
+  .instruction-card {
+    padding: 20px;
+    max-width: 250px;
+  }
+  
+  .instruction-icon {
+    font-size: 36px;
+  }
+  
+  .instruction-card h3 {
+    font-size: 16px;
+  }
+  
+  .instruction-card p {
+    font-size: 13px;
+  }
+}
