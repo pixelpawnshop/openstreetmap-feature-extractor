@@ -9,22 +9,53 @@
   height: 100%;
 }
 
-.map-instruction {
+/* Instruction overlay (dismissible popup) */
+.instruction-overlay {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   z-index: 1000;
-  pointer-events: none;
+  animation: fadeIn 0.3s ease-out;
 }
 
-.instruction-card {
+.instruction-popup {
   background: white;
-  padding: 24px 32px;
+  padding: 32px;
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   text-align: center;
-  max-width: 300px;
+  max-width: 350px;
+  position: relative;
+  animation: slideIn 0.3s ease-out;
+}
+
+.close-button {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 32px;
+  color: #666;
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+  line-height: 1;
+}
+
+.close-button:hover {
+  color: #333;
 }
 
 .instruction-icon {
@@ -33,16 +64,36 @@
   margin-bottom: 12px;
 }
 
-.instruction-card h3 {
+.instruction-popup h3 {
   font-size: 18px;
   margin-bottom: 8px;
   color: #333;
 }
 
-.instruction-card p {
+.instruction-popup p {
   font-size: 14px;
   color: #666;
   line-height: 1.5;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: scale(0.9) translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
 }
 
 /* Feature popup styles */
@@ -81,20 +132,20 @@
 }
 
 @media (max-width: 768px) {
-  .instruction-card {
-    padding: 20px;
-    max-width: 250px;
+  .instruction-popup {
+    padding: 24px;
+    max-width: 280px;
   }
   
   .instruction-icon {
     font-size: 36px;
   }
   
-  .instruction-card h3 {
+  .instruction-popup h3 {
     font-size: 16px;
   }
   
-  .instruction-card p {
+  .instruction-popup p {
     font-size: 13px;
   }
 }

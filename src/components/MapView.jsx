@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet-draw';
 import './MapView.css';
@@ -16,6 +16,22 @@ function MapView({ drawnBounds, setDrawnBounds, drawnGeometry, setDrawnGeometry,
   const mapInstanceRef = useRef(null);
   const drawnItemsRef = useRef(null);
   const featureLayerRef = useRef(null);
+  const [showInstructions, setShowInstructions] = useState(() => {
+    // Check if user has dismissed it before
+    const dismissed = localStorage.getItem('instructionsDismissed');
+    return !dismissed;
+  });
+
+  const handleDismiss = () => {
+    setShowInstructions(false);
+    localStorage.setItem('instructionsDismissed', 'true');
+  };
+
+  const handleOverlayClick = (e) => {
+    if (e.target.className === 'instruction-overlay') {
+      handleDismiss();
+    }
+  };
 
   useEffect(() => {
     // Initialize map
@@ -190,9 +206,12 @@ function MapView({ drawnBounds, setDrawnBounds, drawnGeometry, setDrawnGeometry,
   return (
     <div className="map-container">
       <div ref={mapRef} className="map" />
-      {!drawnBounds && !loading && (
-        <div className="map-instruction">
-          <div className="instruction-card">
+      {!drawnBounds && !loading && showInstructions && (
+        <div className="instruction-overlay" onClick={handleOverlayClick}>
+          <div className="instruction-popup">
+            <button className="close-button" onClick={handleDismiss}>
+              ×
+            </button>
             <span className="instruction-icon">✏️</span>
             <h3>Draw an Area</h3>
             <p>Use the rectangle or polygon tool to select an area on the map</p>
