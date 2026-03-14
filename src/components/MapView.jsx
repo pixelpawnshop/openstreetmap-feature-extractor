@@ -16,11 +16,15 @@ function MapView({ drawnBounds, setDrawnBounds, drawnGeometry, setDrawnGeometry,
   const mapInstanceRef = useRef(null);
   const drawnItemsRef = useRef(null);
   const featureLayerRef = useRef(null);
+  const searchMarkerRef = useRef(null);
   const [showInstructions, setShowInstructions] = useState(() => {
     // Check if user has dismissed it before
     const dismissed = localStorage.getItem('instructionsDismissed');
     return !dismissed;
   });
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
 
   const handleDismiss = () => {
     setShowInstructions(false);
@@ -33,18 +37,69 @@ function MapView({ drawnBounds, setDrawnBounds, drawnGeometry, setDrawnGeometry,
     }
   };
 
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    if (!searchQuery.trim()) return;
+
+    setIsSearching(true);
+    setSearchResults([]);
+
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(searchQuery)}&limit=5`
+      );
+      const data = await response.json();
+      setSearchResults(data);
+    } catch (error) {
+      console.error('Search error:', error);
+      alert('Search failed. Please try again.');
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  const handleSelectResult = (result) => {
+    if (!mapInstanceRef.current) return;
+
+    const lat = parseFloat(result.lat);
+    const lon = parseFloat(result.lon);
+
+    // Remove previous search marker if exists
+    if (searchMarkerRef.current) {
+      mapInstanceRef.current.removeLayer(searchMarkerRef.current);
+    }
+
+    // Add marker and zoom to location
+    const marker = L.marker([lat, lon]).addTo(mapInstanceRef.current);
+    marker.bindPopup(result.display_name).openPopup();
+    searchMarkerRef.current = marker;
+
+    mapInstanceRef.current.setView([lat, lon], 13);
+
+    // Clear search
+    setSearchQuery('');
+    setSearchResults([]);
+  };
+
   useEffect(() => {
     // Initialize map
     if (!mapInstanceRef.current) {
       const map = L.map(mapRef.current, {
-        center: [51.505, -0.09],
-        zoom: 13,
+        center: [20, 0],
+        zoom: 2,
         zoomControl: true,
       });
 
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         maxZoom: 19,
+      }).addTo(map);
+
+      // Add scale control
+      L.control.scale({
+        position: 'bottomleft',
+        metric: true,
+        imperial: true,
       }).addTo(map);
 
       // Initialize drawn items layer
@@ -210,6 +265,38 @@ function MapView({ drawnBounds, setDrawnBounds, drawnGeometry, setDrawnGeometry,
   return (
     <div className="map-container">
       <div ref={mapRef} className="map" />
+      
+      {/* Search Bar */}
+      <div className="search-container">
+        <form onSubmit={handleSearch} className="search-form">
+          <input
+            type="text"
+            className="search-input"
+            placeholder="Search for a location..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <button type="submit" className="search-button" disabled={isSearching}>
+            {isSearching ? '⏳' : '🔍'}
+          </button>
+        </form>
+        
+        {searchResults.length > 0 && (
+          <div className="search-results">
+            {searchResults.map((result, index) => (
+              <div
+                key={index}
+                className="search-result-item"
+                onClick={() => handleSelectResult(result)}
+              >
+                <span className="result-icon">📍</span>
+                <span className="result-name">{result.display_name}</span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
       {!drawnBounds && !loading && showInstructions && (
         <div className="instruction-overlay" onClick={handleOverlayClick}>
           <div className="instruction-popup">
