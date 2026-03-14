@@ -195,6 +195,38 @@
   color: #333;
 }
 
+/* Google Maps Section */
+.googlemaps-section {
+  margin-top: 8px;
+}
+
+.googlemaps-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #4285F4 0%, #34A853 50%, #FBBC05 75%, #EA4335 100%);
+  border: none;
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.googlemaps-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.googlemaps-icon {
+  font-size: 18px;
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
   .results-panel {

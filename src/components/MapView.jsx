@@ -219,6 +219,7 @@ function MapView({ drawnBounds, setDrawnBounds, drawnGeometry, setDrawnGeometry,
             <span className="instruction-icon">✏️</span>
             <h3>Draw an Area</h3>
             <p>Use the rectangle or polygon tool to select an area on the map</p>
+            <p className="instruction-note">⚠️ <strong>Note:</strong> This tool uses OpenStreetMap data only. Feature coverage can be unevenly distributed depending on contributor activity in the region.</p>
           </div>
         </div>
       )}

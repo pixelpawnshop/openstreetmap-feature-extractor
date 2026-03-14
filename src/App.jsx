@@ -49,6 +49,7 @@ function App() {
             features={fullFeatures || features}
             stats={stats}
             selectedCategory={selectedCategory}
+            drawnBounds={drawnBounds}
           />
         )}
       </div>

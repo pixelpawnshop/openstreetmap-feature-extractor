@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { exportGeoJSON, exportShapefile, exportCSV, exportKML } from '../services/exportService';
 import './ResultsPanel.css';
 
-function ResultsPanel({ features, stats, selectedCategory }) {
+function ResultsPanel({ features, stats, selectedCategory, drawnBounds }) {
   const [isExpanded, setIsExpanded] = useState(true);
 
   const handleExport = (format) => {
@@ -30,6 +30,26 @@ function ResultsPanel({ features, stats, selectedCategory }) {
       console.error('Export error:', error);
       alert(`Export failed: ${error.message}`);
     }
+  };
+
+  const handleViewOnGoogleMaps = () => {
+    if (!drawnBounds) return;
+    
+    const centerLat = (drawnBounds.north + drawnBounds.south) / 2;
+    const centerLng = (drawnBounds.east + drawnBounds.west) / 2;
+    
+    // Calculate appropriate zoom level based on bounds size
+    const latDiff = Math.abs(drawnBounds.north - drawnBounds.south);
+    const lngDiff = Math.abs(drawnBounds.east - drawnBounds.west);
+    const maxDiff = Math.max(latDiff, lngDiff);
+    
+    let zoom = 15;
+    if (maxDiff > 0.1) zoom = 12;
+    if (maxDiff > 0.5) zoom = 10;
+    if (maxDiff > 1) zoom = 8;
+    
+    const googleMapsUrl = `https://www.google.com/maps/@${centerLat},${centerLng},${zoom}z`;
+    window.open(googleMapsUrl, '_blank');
   };
 
   return (
@@ -131,6 +151,17 @@ function ResultsPanel({ features, stats, selectedCategory }) {
             <p className="info-text">
               💡 <strong>Tip:</strong> For shapefiles, multiple files will be downloaded in a ZIP archive.
             </p>
+          </div>
+
+          <div className="googlemaps-section">
+            <button 
+              className="googlemaps-btn"
+              onClick={handleViewOnGoogleMaps}
+              title="View this area on Google Maps"
+            >
+              <span className="googlemaps-icon">🗺️</span>
+              <span>View on Google Maps</span>
+            </button>
           </div>
         </div>
       )}
