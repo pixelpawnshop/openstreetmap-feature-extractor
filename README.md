@@ -6,6 +6,8 @@ A web-based tool for extracting and analyzing OpenStreetMap features with intera
 
 OSM Feature Extractor provides an intuitive interface for querying OpenStreetMap data within user-defined areas of interest. Built with React and Leaflet, it enables spatial analysis and data extraction without requiring desktop GIS software or technical expertise.
 
+[OSM Feature Extractor](./OSM%20Feature%20Extractor%20-%20Google%20Chrome%202026-03-14%2015-36-54.mp4)
+
 ## Features
 
 ### Interactive Map Drawing
