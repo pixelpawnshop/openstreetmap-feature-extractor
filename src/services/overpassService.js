@@ -78,7 +78,7 @@ export const executeOverpassQuery = async (query) => {
     } else if (error.response?.status === 429) {
       throw new Error('Rate limit exceeded - please wait a moment and try again');
     } else if (error.response?.status === 504) {
-      throw new Error('Gateway timeout - try a smaller area');
+      throw new Error('Server timeout - the Overpass API is busy or overloaded. Please try again in a moment or reduce your area size.');
     } else {
       throw new Error(`Overpass API error: ${error.message}`);
     }
