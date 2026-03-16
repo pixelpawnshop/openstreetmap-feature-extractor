@@ -16,11 +16,12 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [stats, setStats] = useState(null);
+  const [resultsExpanded, setResultsExpanded] = useState(true);
 
   return (
     <div className="app">
       <Header />
-      <div className="main-content">
+      <div className={`main-content ${features && resultsExpanded ? 'has-results' : ''}`}>
         <Sidebar
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
@@ -50,6 +51,7 @@ function App() {
             stats={stats}
             selectedCategory={selectedCategory}
             drawnBounds={drawnBounds}
+            onExpandChange={setResultsExpanded}
           />
         )}
       </div>

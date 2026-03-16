@@ -12,7 +12,6 @@
 
 .results-panel.expanded {
   height: auto;
-  max-height: 400px;
 }
 
 .results-panel.collapsed {
@@ -38,7 +37,6 @@
 
 .results-content {
   padding: 20px;
-  overflow-y: visible;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -202,7 +200,7 @@
 
 .googlemaps-btn {
   width: 100%;
-  background: linear-gradient(135deg, #4285F4 0%, #34A853 50%, #FBBC05 75%, #EA4335 100%);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border: none;
   border-radius: 8px;
   padding: 12px 16px;

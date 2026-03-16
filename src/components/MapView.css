@@ -9,6 +9,16 @@
   height: 100%;
 }
 
+/* Position scale control dynamically based on results panel */
+.leaflet-bottom.leaflet-left {
+  bottom: 10px;
+  transition: bottom 0.3s ease;
+}
+
+.has-results .leaflet-bottom.leaflet-left {
+  bottom: 50vh;
+}
+
 /* Search Bar */
 .search-container {
   position: absolute;

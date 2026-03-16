@@ -2,8 +2,16 @@ import React, { useState } from 'react';
 import { exportGeoJSON, exportShapefile, exportCSV, exportKML } from '../services/exportService';
 import './ResultsPanel.css';
 
-function ResultsPanel({ features, stats, selectedCategory, drawnBounds }) {
+function ResultsPanel({ features, stats, selectedCategory, drawnBounds, onExpandChange }) {
   const [isExpanded, setIsExpanded] = useState(true);
+
+  const toggleExpanded = () => {
+    const newExpanded = !isExpanded;
+    setIsExpanded(newExpanded);
+    if (onExpandChange) {
+      onExpandChange(newExpanded);
+    }
+  };
 
   const handleExport = (format) => {
     try {
@@ -57,7 +65,7 @@ function ResultsPanel({ features, stats, selectedCategory, drawnBounds }) {
       {!isExpanded && (
         <button 
           className="results-toggle"
-          onClick={() => setIsExpanded(!isExpanded)}
+          onClick={toggleExpanded}
           title="Expand panel"
           style={{ position: 'absolute', right: '20px', top: '10px' }}
         >
@@ -72,7 +80,7 @@ function ResultsPanel({ features, stats, selectedCategory, drawnBounds }) {
             <span className="results-count">{stats?.total || 0} features</span>
             <button 
               className="results-toggle"
-              onClick={() => setIsExpanded(!isExpanded)}
+              onClick={toggleExpanded}
               title="Collapse panel"
             >
               ▼
