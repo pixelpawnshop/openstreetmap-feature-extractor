@@ -18,6 +18,14 @@ function Header() {
           >
             📚 OSM Wiki
           </a>
+          <a 
+            href="https://wiki.openstreetmap.org/wiki/Overpass_API" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="header-link"
+          >
+            🔌 Overpass API
+          </a>
         </div>
       </div>
     </header>
